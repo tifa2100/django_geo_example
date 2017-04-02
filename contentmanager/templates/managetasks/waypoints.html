@@ -1,0 +1,5 @@
+{% for point in point_cores %}
+    <div id={{point.auto_id}} class='waypoint linkOFF'>
+        {{point.store_code}} ({{point.point_location.y}}, {{point.point_location.x}})
+    </div>
+{% endfor %}

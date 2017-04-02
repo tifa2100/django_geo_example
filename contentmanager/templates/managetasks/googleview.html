@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+<!--<script src="{{ STATIC_URL }}scripts/google-map-scripts.js"></script>-->
+<script>
+$(document).on("google_point_map_widget:marker_create", function (e, lat, lng, locationInputElem, mapWrapID) {
+    console.log(locationInputElem); // django widget textarea widget (hidden)
+    console.log(lat, lng); // created marker coordinates
+    console.log(mapWrapID); // map widget wrapper element ID
+});
+</script>
+<style>
+    body {font-family: sans-serif}
+    #map {width: 500px; height: 300px}
+    #waypoints {overflow: auto; width: 500px; height: 100px}
+    .linkOFF {color: darkblue}
+    .linkON {color: white; background-color: darkblue}
+</style>
+</head>
+
+<body onload="initialize()">
+    <div id=map></div>
+    <div id=waypoints>
+        {{content}}
+    </div>
+    <input id=saveWaypoints type=button value=Save disabled=disabled>
+    <br>
+    <br>
+    <br>
+    <input id=address value='Chicago, IL'>
+    <input id=searchWaypoints type=button value='Rank waypoints by distance from address'>
+
+
+</body>
+</html>
