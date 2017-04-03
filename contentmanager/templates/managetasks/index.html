@@ -20,9 +20,9 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     geocoder = new google.maps.Geocoder();
-    /*google.maps.event.addListener(map, 'click', function(event) {
-		placeMarker(event.latLng);
-      });*/
+    google.maps.event.addListener(map, 'click', function(event) {
+		    placeMarker(event.latLng);
+      });
   }
 
   {% for waypoint in point_cores %}
@@ -32,38 +32,9 @@
 	  lng: {{waypoint.point_location.x}}
 	};
   {% endfor %}
-
+             
   $(document).ready(function () {
-	function searchWaypoints() {
-	  geocoder.geocode({
-		'address': $('#address').val()
-	  }, function(results, status) {
-	    if (status == google.maps.GeocoderStatus.OK) {
-          var position = results[0].geometry.location;
-          $.get("{% url 'waypoints-search' %}", {
-              lat: position.lat(),
-              lng: position.lng()
-          }, function (data) {
-              if (data.isOk) {
-                  $('#waypoints').html(data.content);
-                  waypointByID = data.waypointByID;
-                  activateWaypoints();
-              } else {
-                  alert(data.message);
-              }
-             }, 'json');
-        } else {
-          alert('Could not find geocoordinates for the following reason: ' + status);
-        }
-      });
-    }
-
-	$('#searchWaypoints').click(searchWaypoints);
-
-	$('#address').keydown(function(e) {
-	  if (e.keyCode == 13) searchWaypoints();
-	});
-  
+    
     function activateWaypoints() {
       // Add waypoint click handler
       $('.waypoint').each(function () {
@@ -89,6 +60,21 @@
           );
       });
 	}
+  
+  /*$("#map").click(function() {
+    if (marker) marker.setMap();
+    marker = new google.maps.Marker({map: map, position: center, draggable: true});
+    google.maps.event.addListener(marker, 'dragend', function() {
+      var position = marker.getPosition();
+      waypoint.lat = position.lat();
+      waypoint.lng = position.lng();
+      $('#saveWaypoints').removeAttr('disabled');
+    });
+    map.panTo(center);
+  }).hover(
+    function () {this.className = this.className.replace('OFF', 'ON');},
+    function () {this.className = this.className.replace('ON', 'OFF');}
+    );*/
 	
 	$('#saveWaypoints').click(function () {
       var waypointStrings = [];
@@ -112,27 +98,13 @@
   });
 
   function placeMarker(location) {
-    deleteMarkers();
-    var marker = new google.maps.Marker({
+    if (marker) marker.setMap();
+    marker = new google.maps.Marker({
         position: location,
         map: map
     });
   }
-
-  function deleteMarkers() {
-	clearMarkers();
-	markers = [];
-  }
-
-  function clearMarkers() {
-    setMapOnAll(null);
-  }
-
-  function setMapOnAll(map) {
-    for (var i = 0; i < markers.length; i++) {
-      markers[i].setMap(map);
-    }
-  }
+  
 </script>
 <style>
     body {font-family: sans-serif}
@@ -152,9 +124,5 @@
     <br>
     <br>
     <br>
-    <input id=address value='Cairo'>
-    <input id=searchWaypoints type=button value='Rank waypoints by distance from address'>
-
-
 </body>
 </html>
