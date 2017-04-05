@@ -166,8 +166,8 @@ def upload(request):
 
 # View For Upload Images
 def upload_places(request):
-    AWS_ACCESS_KEY = 'AKIAIFIUY2DKPDE3QFNQ'
-    AWS_ACCESS_SECRET_KEY = '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'
+    AWS_ACCESS_KEY = ''
+    AWS_ACCESS_SECRET_KEY = ''
     if request.method == 'POST' and request.FILES['myfile']:
         for myfile in request.FILES.getlist('myfile'):
             key = myfile.name
@@ -211,8 +211,8 @@ def upload_places_storage(request):
 
 
 def upload_places_new(request):
-    AWS_ACCESS_KEY = 'AKIAIFIUY2DKPDE3QFNQ'
-    AWS_ACCESS_SECRET_KEY = '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'
+    AWS_ACCESS_KEY = ''
+    AWS_ACCESS_SECRET_KEY = ''
 
     file = open('someFile.txt', 'r+')
 
